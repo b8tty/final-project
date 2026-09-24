@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Station QR Code Generator — IEBC</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --primary: #283B0A;
+    --gold: #DD9C00;
+    --background: #FBF6EC;
+    --surface: #FFFFFF;
+    --border: #E7DCC8;
+    --muted: #6B6152;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--background);
+    color: var(--primary);
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 { font-size: 22px; margin-bottom: 6px; }
+  p { color: var(--muted); font-size: 13.5px; margin-bottom: 24px; text-align: center; max-width: 420px; }
+  .input-row { display: flex; gap: 10px; margin-bottom: 30px; }
+  input {
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    width: 260px;
+  }
+  button {
+    padding: 11px 20px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .cards { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    width: 200px;
+  }
+  .card .code { font-weight: 700; margin-top: 12px; font-size: 15px; }
+  .card .hint { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+  @media print {
+    .input-row, h1, p { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Station QR Code Generator</h1>
+<p>Enter a station code (e.g. PS001) to generate a printable QR code. Officers scan this at their station using the "Confirm My Station" screen in the field app.</p>
+
+<div class="input-row">
+  <input type="text" id="stationCode" placeholder="e.g. PS001">
+  <button onclick="addCode()">Generate</button>
+  <button onclick="window.print()" style="background: var(--gold);">Print All</button>
+</div>
+
+<div class="cards" id="cards"></div>
+
+<script>
+  function addCode() {
+    const input = document.getElementById('stationCode');
+    const code = input.value.trim();
+    if (!code) return;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    const qrDiv = document.createElement('div');
+    card.appendChild(qrDiv);
+
+    const label = document.createElement('div');
+    label.className = 'code';
+    label.textContent = code;
+    card.appendChild(label);
+
+    const hint = document.createElement('div');
+    hint.className = 'hint';
+    hint.textContent = 'Scan at this station';
+    card.appendChild(hint);
+
+    document.getElementById('cards').appendChild(card);
+
+    new QRCode(qrDiv, { text: code, width: 140, height: 140 });
+
+    input.value = '';
+  }
+
+  document.getElementById('stationCode').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') addCode();
+  });
+</script>
+
+</body>
+</html>

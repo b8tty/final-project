@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POIRS — Polling Station Operations & Incident Reporting System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #283B0A;      
+    --brown: #563D23;
+    --gold: #DD9C00;
+    --maize: #FAE45E;
+    --moss: #A7A865;
+    --background: #FBF6EC;
+    --surface: #FFFFFF;
+    --border: #E7DCC8;
+    --muted: #6B6152;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--background);
+    color: var(--primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 56px 20px 40px;
+  }
+
+  .seal {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Source Serif 4', serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    margin-bottom: 20px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+    max-width: 560px;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 14.5px;
+    text-align: center;
+    max-width: 480px;
+    margin-bottom: 48px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    width: 100%;
+    max-width: 920px;
+  }
+
+  @media (max-width: 800px) {
+    .cards { grid-template-columns: 1fr; max-width: 380px; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+
+  .card-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 17.5px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .card-cta {
+    margin-top: 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-cta svg { transition: transform 0.15s ease; }
+  .card:hover .card-cta svg { transform: translateX(3px); }
+
+  footer {
+    margin-top: 56px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 420px;
+  }
+
+  /* ---- Instructions modal for the mobile app card ---- */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(40, 59, 10, 0.35);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 10;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border-radius: 16px;
+    max-width: 440px;
+    width: 100%;
+    padding: 28px;
+  }
+
+  .modal h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 19px;
+    margin-bottom: 12px;
+  }
+
+  .modal p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .modal code {
+    display: block;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    font-family: monospace;
+    margin-bottom: 10px;
+    color: var(--primary);
+  }
+
+  .modal button {
+    margin-top: 8px;
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="seal">IEBC</div>
+<div class="eyebrow">POIRS</div>
+<h1>Polling Station Operations &amp; Incident Reporting System</h1>
+<p class="subtitle">Choose how you'd like to continue. Each destination has its own sign-in — this page is just a shortcut, not a login.</p>
+
+<div class="cards">
+
+  <div class="card" onclick="window.location.href='citizen/index.html'">
+    <div class="card-icon" style="background: rgba(221,156,0,0.14);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DD9C00" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7" stroke-linecap="round"/></svg>
+    </div>
+    <div class="card-title">I'm a Citizen</div>
+    <div class="card-desc">Find your registered polling station, check the queue and opening hours, and see current weather — using just your National ID.</div>
+    <div class="card-cta">
+      Open voter lookup
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+
+  <div class="card" onclick="openModal()">
+    <div class="card-icon" style="background: rgba(167,168,101,0.18);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#283B0A" stroke-width="1.8"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="card-title">I'm a Presiding Officer</div>
+    <div class="card-desc">Submit station status reports and incidents from the field. Runs as the mobile field app, on your phone or as a local build.</div>
+    <div class="card-cta">
+      View launch instructions
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+
+  <div class="card" onclick="window.open('http://localhost:5173', '_blank')">
+    <div class="card-icon" style="background: rgba(40,59,10,0.1);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#283B0A" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3" stroke-linecap="round"/></svg>
+    </div>
+    <div class="card-title">Headquarters (HQ)</div>
+    <div class="card-desc">Monitor incidents as they come in, track station status county-wide, and set the schedule voters see.</div>
+    <div class="card-cta">
+      Open operations console
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Each destination requires its own sign-in where relevant. The citizen lookup has no login by design — it only ever returns information already tied to the National ID entered, nothing else.
+  <br><br>
+  <a href="qr-generator.html" style="color: var(--primary); font-weight: 600;">Generate printable station QR codes →</a>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2>Launching the Field Officer App</h2>
+    <p>This runs separately as a Flutter app, since it's built for phones. For your presentation, start it on your computer with:</p>
+    <code>cd iebc_mobile</code>
+    <code>flutter run -d chrome</code>
+    <p>Or, to demo it on an actual Android phone connected via USB:</p>
+    <code>flutter run</code>
+    <button onclick="closeModal()">Got it</button>
+  </div>
+</div>
+
+<script>
+  function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
+  function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+</script>
+
+</body>
+</html>
